@@ -18,7 +18,7 @@ public class StillService extends Service {
     Timer timer;
     TimerTask timerTask;
     String TAG = "StillService";
-    int start = 0;
+    int detik = 0, menit = 0;
     int Your_X_SECS = 5;
     Context context;
 
@@ -66,7 +66,7 @@ public class StillService extends Service {
         //schedule the timer, after the first 5000ms the TimerTask will run every 10000ms
 //        timer.schedule(timerTask, 5000, Your_X_SECS * 1000); //
 //        timer.schedule(timerTask, 5000,1000); //
-        timer.schedule(timerTask, 2000,1000); //
+        timer.schedule(timerTask, 0,1000); //
     }
 
     public void stoptimertask() {
@@ -85,16 +85,20 @@ public class StillService extends Service {
                 //use a handler to run a toast that shows the current timestamp
                 handler.post(new Runnable() {
                     public void run() {
-                        start++;
+                        detik++;
+                        if (detik == 60){
+                            menit++;
+                            detik=0;
+                        }
 
                         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "12");
                         builder.setSmallIcon(R.drawable.ic_stat_name);
                         builder.setContentTitle("Terhubung");
-                        builder.setContentText("Sudah Hidup Selama : " + start + " detik");
+                        builder.setContentText("Sudah Hidup Selama : " + menit + " menit");
                         NotificationManagerCompat nm = NotificationManagerCompat.from(context);
                         nm.notify(0, builder.build());
 
-                        Log.i(TAG, "run " + start);
+                        Log.i(TAG, "run " + detik);
                     }
                 });
             }
