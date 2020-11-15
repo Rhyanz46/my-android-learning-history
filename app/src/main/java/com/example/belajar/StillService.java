@@ -94,7 +94,7 @@ public class StillService extends Service {
                         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "12");
                         builder.setSmallIcon(R.drawable.ic_stat_name);
                         builder.setContentTitle("Terhubung");
-                        builder.setContentText("Sudah Hidup Selama : " + menit + " menit");
+                        builder.setContentText("Sudah Hidup Selama : " + detik + " detik");
                         NotificationManagerCompat nm = NotificationManagerCompat.from(context);
                         nm.notify(0, builder.build());
 
