@@ -98,7 +98,7 @@ public class StillService extends Service {
                         NotificationManagerCompat nm = NotificationManagerCompat.from(context);
                         nm.notify(0, builder.build());
 
-                        Log.i(TAG, "run " + detik);
+//                        Log.i(TAG, "run " + detik);
                     }
                 });
             }
