@@ -39,7 +39,7 @@ public class SettingBackgroundActivity extends AppCompatActivity {
     }
 
     public void notifMe(View view) {
-        Request request = new Request.Builder().url("ws://172.20.10.3:9091/socket?token=444").build();
+        Request request = new Request.Builder().url("ws://45.64.97.77:9091/driver/v1/notification/order?token=444").build();
 
         new OkHttpClient().newWebSocket(request, new WebSocketListener() {
             @Override
@@ -64,7 +64,7 @@ public class SettingBackgroundActivity extends AppCompatActivity {
             @Override
             public void onMessage(@NotNull WebSocket webSocket, @NotNull String text) {
                 super.onMessage(webSocket, text);
-                sendNotification();
+                sendNotification(text);
                 Log.i("Socket onMessage", "onMessage String terjadi");
                 Log.i("Socket onMessage", "message : " + text);
             }
@@ -91,15 +91,15 @@ public class SettingBackgroundActivity extends AppCompatActivity {
 //            startService(intentStillSocket);
 
             Toast.makeText(this, "notif is started", Toast.LENGTH_SHORT).show();
-            sendNotification();
+            sendNotification("Hello");
             Log.i("Setting Background", "notif is started");
         }catch (Exception ignored){
             Toast.makeText(this, "failed to start notif", Toast.LENGTH_SHORT).show();
         };
     }
 
-    public void sendNotification() {
-        NotificationCompat.Builder notifyBuilder = getNotificationBuilder();
+    public void sendNotification(String message) {
+        NotificationCompat.Builder notifyBuilder = getNotificationBuilder(message);
         mNotifyManager.notify(NOTIFICATION_ID, notifyBuilder.build());
     };
 
@@ -121,14 +121,14 @@ public class SettingBackgroundActivity extends AppCompatActivity {
         }
     }
 
-    private NotificationCompat.Builder getNotificationBuilder(){
+    private NotificationCompat.Builder getNotificationBuilder(String message){
         Intent notificationIntent = new Intent(this, SettingBackgroundActivity.class);
 //        finishAffinity();
         PendingIntent notificationPendingIntent = PendingIntent.getActivity(this,
                 NOTIFICATION_ID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder notifyBuilder = new NotificationCompat.Builder(this, PRIMARY_CHANNEL_ID)
-                .setContentTitle("You've been notified!")
-                .setContentText("This is your notification text.")
+                .setContentTitle("New Order!")
+                .setContentText(message)
 //                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setSmallIcon(R.drawable.ic_stat_name)
                 .setContentIntent(notificationPendingIntent)
